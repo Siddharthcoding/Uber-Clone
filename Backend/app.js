@@ -5,12 +5,12 @@ import express from "express";
 import cors from "cors";
 import connectToDb from "./db/db.js";
 import userRoutes from "./routes/user.routes.js";
-// const userRoutes = require("./routes/user.routes");
-
+import cookieParser from "cookie-parser";
 
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 connectToDb();
 app.use(cors());   // for now it accepts request from every domain

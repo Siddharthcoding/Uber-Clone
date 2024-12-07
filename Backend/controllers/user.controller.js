@@ -1,6 +1,7 @@
 import userModel from "../models/user.model.js";
 import createUser from "../services/user.service.js";
-import { validationResult } from "express-validator"
+import { validationResult } from "express-validator";
+import BlacklistToken from "../models/blacklistToken.model.js";
 
 export const registerUser = async(req, res, next) => {
     const errors = validationResult(req);
@@ -47,5 +48,23 @@ export const loginUser = async(req, res, next) => {
     }
 
     const token = user.generateAuthToken();
+    res.cookie('token', token);
+
     res.status(200).json({token, user});
+}
+
+// the profile of user that has logged in should only be visible
+// so we add a middleware to check which user has logged in
+export const getUserProfile = async(req, res, next) =>{
+    res.status(200).json(req.user);
+}
+
+export const logoutUser = async (req, res, next) =>{
+    res.clearCookie('token');
+    const token =
+    req.cookies?.token || (req.headers.authorization && req.headers.authorization.split(" ")[1]);
+
+    await BlacklistToken.create({token});
+
+    res.status(200).json({message: 'Log Out'});
 }
