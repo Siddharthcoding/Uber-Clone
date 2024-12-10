@@ -8,6 +8,8 @@ import CaptainSignup from './pages/CaptainSignup';
 import Home from './pages/Home';
 import UserProtectedWrapper from './pages/UserProtectedWrapper';
 import UserLogout from './pages/UserLogout';
+import CaptainHome from './pages/CaptainHome';
+import CaptainProtectedWrapper from './pages/CaptainProtectedWrapper';
 
 function App() {
   return (
@@ -26,6 +28,11 @@ function App() {
           <UserProtectedWrapper>
             <UserLogout />
           </UserProtectedWrapper>
+        } />
+        <Route path='/captain-home' element={
+          <CaptainProtectedWrapper>
+            <CaptainHome />
+          </CaptainProtectedWrapper>
         } />
       </Routes>
     </div>
